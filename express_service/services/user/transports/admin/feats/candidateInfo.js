@@ -1,7 +1,7 @@
-const { STATUS_CODES } = require("../../utils/app-errors");
-const { ErrorResponse } = require("../../utils/error-handler");
-const { SetResponse } = require("../../utils/success-response");
-const { candidateController } = require("./instance");
+const { STATUS_CODES } = require("../../../utils/app-errors");
+const { ErrorResponse } = require("../../../utils/error-handler");
+const { SetResponse } = require("../../../utils/success-response");
+const { candidateController } = require("../instance");
 
 const CandidateInfo = async (req, res, next) => {
     try {
