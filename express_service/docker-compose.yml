@@ -49,7 +49,6 @@ services:
       - BASE_URL_USER_SERVICE=http://user:5001
       - BASE_URL_JOB_SERVICE=http://job:5002
       - BASE_URL_APPLICATION_SERVICE=http://application:5003
-      - BASE_URL_AUTH_SERVICE=http://keycloak:8080
     volumes:
       - .:/app
       - /app/gateway/node_modules
