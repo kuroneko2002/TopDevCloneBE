@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   elasticsearch:
@@ -8,8 +8,8 @@ services:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=aA@12345678
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200'
+      - '9300:9300'
     networks:
       - elastic
 
@@ -23,7 +23,7 @@ services:
     depends_on:
       - elasticsearch
     ports:
-      - "5601:5601"
+      - '5601:5601'
     networks:
       - elastic
 
@@ -34,8 +34,8 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - '5672:5672'
+      - '15672:15672'
 
   gateway:
     build:
@@ -43,12 +43,13 @@ services:
       context: ./gateway
     container_name: gateway
     ports:
-      - "5000:5000"
+      - '5000:5000'
     restart: always
     environment:
       - BASE_URL_USER_SERVICE=http://user:5001
       - BASE_URL_JOB_SERVICE=http://job:5002
       - BASE_URL_APPLICATION_SERVICE=http://application:5003
+      - BASE_URL_AUTH_SERVICE=http://keycloak:8080
     volumes:
       - .:/app
       - /app/gateway/node_modules
@@ -66,11 +67,47 @@ services:
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
     ports:
-      - "5003:5003"
+      - '5003:5003'
     restart: always
     volumes:
       - .:/app
       - /app/services/application/node_modules
+    networks:
+      - topdev
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=keycloak_db
+      - POSTGRES_USER=keycloak_db_user
+      - POSTGRES_PASSWORD=keycloak_db_user_password
+    networks:
+      - topdev
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.6
+    command: start-dev
+    container_name: keycloak
+    environment:
+      - KC_HOSTNAME=localhost
+      - KC_HOSTNAME_PORT=8080
+      - KC_HOSTNAME_STRICT_BACKCHANNEL=false
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_HEALTH_ENABLED=true
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres/keycloak_db
+      - KC_DB_USERNAME=keycloak_db_user
+      - KC_DB_PASSWORD=keycloak_db_user_password
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - postgres
     networks:
       - topdev
 
@@ -80,7 +117,7 @@ services:
       context: ./services/user
     container_name: user
     ports:
-      - "5001:5001"
+      - '5001:5001'
     restart: always
     environment:
       - PORT=5001
@@ -115,13 +152,17 @@ services:
       - ES_USERNAME=elastic
       - ES_PW=aA@12345678
     ports:
-      - "5002:5002"
+      - '5002:5002'
     restart: always
     volumes:
       - .:/app
       - /app/services/job/node_modules
     networks:
       - topdev
+
+volumes:
+  postgres_data:
+    driver: local
 
 networks:
   elastic:
