@@ -1,5 +1,5 @@
 const { JobRepository } = require('../repositories');
-const sequelize = require('../database/pg');
+const { sequelize } = require('../database/pg');
 const { jobs } = require('../__mocks__/mock');
 
 describe('Start unit test for update job function', () => {
