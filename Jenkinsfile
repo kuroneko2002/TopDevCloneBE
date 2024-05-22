@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs '20.13.1' // Use the configured Node.js version
+    }
+
+    stages {
+        // stage('Install Dependencies') {
+        //     steps {
+        //         script {
+        //            dir('Hello'){
+        //             sh 'npm install'
+        //            }
+        //         }
+        //     }
+        // }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                  dir('express_service/services/job'){
+                    sh 'npm i'
+                    sh 'npm i mongoose'
+                    sh 'cp .env.example .env'
+                    sh 'npm test -- --forceExit'
+                  }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    sshagent(credentials:['topdevclone-vm']) {
+                        // Ensure the .ssh directory exists and then add the host key to known_hosts
+                        sh """
+                        mkdir -p ~/.ssh
+                        ssh-keyscan -H 20.6.10.42 >> ~/.ssh/known_hosts
+                        """
+
+                        // Deployment commands
+                        sh """
+                        ssh -t azureuser@20.6.10.42 'sudo rm -rf jenkin-tdclone && git clone https://github.com/qhungo0125/jenkin-tdclone.git && cd jenkin-tdclone/express_service && sudo docker-compose up -d '
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
