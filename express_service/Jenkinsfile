@@ -42,7 +42,7 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azureuser@20.6.10.42 'sudo rm -rf jenkin-tdclone && git clone https://github.com/qhungo0125/jenkin-tdclone.git && cd jenkin-tdclone/express_service && sudo docker-compose up -d '
+                        ssh -t azureuser@20.6.10.42 'sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service && sudo docker-compose up -d '
                         """
                     }
                 }
