@@ -7,8 +7,6 @@ const FindJob = async (req, res, next) => {
   try {
     const id = req.params.id;
 
-    console.log("Find job id: " + id)
-
     const job = await controller.findJob(id);
     SetResponse(res, STATUS_CODES.OK, job, 'OK', null);
   } catch (error) {

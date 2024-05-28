@@ -7,7 +7,12 @@ async function appendEvent(streamName, event) {
         data: event.data,
     });
 
-    await client.appendToStream(streamName, jsonEventInstance);
+    try {
+        await client.appendToStream(streamName, [jsonEventInstance]);
+        console.log('Event sent successfully');
+    } catch (error) {
+        console.error('Error sending event:', error);
+    }
 }
 
 async function readEvents(streamName) {
