@@ -2,12 +2,12 @@ version: "3.7"
 
 services:
   eventstore:
-    image: eventstore/eventstore:latest
+    image: eventstore/eventstore:24.2.0-jammy
     container_name: eventstore
     ports:
       - "2113:2113"
-      - "1113:1113"
-    command: "--insecure"
+    command:
+      ["--insecure", "--run-projections=All", "--enable-atom-pub-over-http"]
     networks:
       - topdev
 
