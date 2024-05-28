@@ -8,7 +8,7 @@ const StartServer = async () => {
   const app = express();
   await expressApp(app);
   await syncModals();
-  await createRedisClient();
+  //await createRedisClient();
 
   app
     .listen(PORT, () => {

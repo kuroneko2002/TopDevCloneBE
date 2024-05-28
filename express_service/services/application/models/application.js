@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/pg");
-const { status } = require("@grpc/grpc-js");
 
 const ApplicationModal = sequelize.define("applications", {
     id: {

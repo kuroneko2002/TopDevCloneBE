@@ -1,5 +1,6 @@
 const { DBError } = require("../../utils/app-errors");
 const { ApplicationModal } = require("./instance");
+const { handleApplicationCreated, handleApplicationUpdated } = require("../../handlers");
 
 const updateProcessApplication = async (applicationId, status) => {
     try {
@@ -13,6 +14,7 @@ const updateProcessApplication = async (applicationId, status) => {
         }
 
         const updatedApplication = await ApplicationModal.findByPk(applicationId);
+        await handleApplicationUpdated(updatedApplication);
         return updatedApplication.dataValues;
     } catch (error) {
         throw new DBError(error.message, "Something went wrong with updating application");
