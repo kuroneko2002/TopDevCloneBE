@@ -128,7 +128,7 @@ services:
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
       - AUTH_HOST=http://authentication:5004
-      - GRPC_AUTH_SERVER=0.0.0.0:8004
+      - GRPC_AUTH_SERVER=auth:8004
       - ES_HOST=http://elasticsearch:9200
       - ES_USERNAME=elastic
       - ES_PW=aA@12345678
@@ -148,7 +148,7 @@ services:
     container_name: authentication
     environment:
       - PORT=5004
-      - GRPC_AUTH_SERVER=0.0.0.0:8004
+      - GRPC_AUTH_SERVER=authentication:8004
       - KC_REALM=Topdev
       - KC_SERVER_URL=http://keycloak:8080
       - KC_CLIENT_ID=TopdevClient
@@ -157,7 +157,7 @@ services:
       - KC_ADMIN_USERNAME=admin
       - KC_ADMIN_PASSWORD=change_me
       - JOB_HOST=http://job:5002
-      - GRPC_JOB_SERVER=0.0.0.0:8002
+      - GRPC_JOB_SERVER=job:8002
       - KEYCLOAK_DEFAULT_USER_PASSWORD=change_me
       - GITHUB_CLIENT_ID=Ov23lifEHe1ghBAepFbw
       - GITHUB_CLIENT_SECRET=ddb3348dfbd668e8a7c8311a858a52417657872e
