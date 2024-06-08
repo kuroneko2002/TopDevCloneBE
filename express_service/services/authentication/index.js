@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
 
+app.get('/test', (req, res) => {
+  res.send('Auth service is working');
+});
+
 const errorHandler = (error, req, res, next) => {
   const status = error.status || 422;
   res.status(status).send(error.message);
